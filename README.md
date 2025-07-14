@@ -43,7 +43,7 @@ dependencies: [
 Add LeapSDK to your `Podfile`:
 
 ```ruby
-pod 'LeapSDK', '~> 1.0'
+pod 'Leap-SDK', '~> 1.0'
 ```
 
 Then run:
