@@ -2,6 +2,7 @@
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
+import CompilerPluginSupport
 
 let package = Package(
   name: "LeapSDK",
@@ -13,15 +14,43 @@ let package = Package(
   products: [
     .library(
       name: "LeapSDK",
-      targets: ["LeapSDK"]
-    )
+      targets: ["LeapSDK", "LeapSDKTypes"]
+    ),
+    .library(
+      name: "LeapSDKConstrainedGeneration",
+      targets: ["LeapSDKConstrainedGeneration"]
+    ),
+  ],
+  dependencies: [
+    .package(url: "https://github.com/swiftlang/swift-syntax.git", from: "600.0.0")
   ],
   targets: [
     .binaryTarget(
       name: "LeapSDK",
-      url:
-        "https://github.com/Liquid4All/leap-ios/releases/download/v0.2.0/LeapSDK.xcframework.zip",
-      checksum: "8e5e181761c7d67ddb284d5f86cdefc42719e8597c2aa77988e821fa5962f5ee"
+      url: "https://github.com/Liquid4All/leap-ios/releases/download/v0.3.0/LeapSDK.xcframework.zip",
+      checksum: "bbf5f09be0e5327a80e06783773fde0489b24d73fa489b6f53b0ca93a205d4d9"
+    ),
+    .target(
+      name: "LeapSDKTypes",
+      path: "Sources/LeapSDKTypes"
+    ),
+    .target(
+      name: "LeapSDKConstrainedGeneration",
+      dependencies: [
+        "LeapSDKConstrainedGenerationPlugin",
+        "LeapSDKTypes"
+      ],
+      path: "Sources/LeapSDKConstrainedGeneration"
+    ),
+    .macro(
+      name: "LeapSDKConstrainedGenerationPlugin",
+      dependencies: [
+        .product(name: "SwiftSyntax", package: "swift-syntax"),
+        .product(name: "SwiftSyntaxMacros", package: "swift-syntax"),
+        .product(name: "SwiftCompilerPlugin", package: "swift-syntax"),
+        "LeapSDKTypes"
+      ],
+      path: "Sources/LeapSDKConstrainedGenerationPlugin"
     )
   ]
 )
