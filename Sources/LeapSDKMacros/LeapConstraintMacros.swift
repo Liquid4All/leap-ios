@@ -1,3 +1,5 @@
+import LeapSDK
+
 /// Marks a type as generatable, allowing it to be used for constrained generation.
 /// The type must conform to Codable.
 @attached(

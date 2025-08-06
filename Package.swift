@@ -14,15 +14,7 @@ let package = Package(
   products: [
     .library(
       name: "LeapSDK",
-      targets: ["LeapSDK"]
-    ),
-    .library(
-      name: "LeapSDKTypes",
-      targets: ["LeapSDKTypes"]
-    ),
-    .library(
-      name: "LeapSDKConstrainedGeneration",
-      targets: ["LeapSDKConstrainedGeneration"]
+      targets: ["LeapSDK", "LeapSDKMacros"]
     ),
   ],
   dependencies: [
@@ -31,21 +23,16 @@ let package = Package(
   targets: [
     .binaryTarget(
       name: "LeapSDK",
-      url: "https://github.com/Liquid4All/leap-ios/releases/download/v0.3.0-1/LeapSDK.xcframework.zip",
-      checksum: "34a9d1e962889d9c5dd4caea0b7ef6ff07c560b329233ee418d728710abcdad6"
-    ),
-    .binaryTarget(
-      name: "LeapSDKTypes",
-      url: "https://github.com/Liquid4All/leap-ios/releases/download/v0.3.0-1/LeapSDKTypes.xcframework.zip",
-      checksum: "c5209b6e4536e96f163ec025febc373a4a32a132fd1bf5089cc5aefc25d18b50"
+      url: "https://github.com/Liquid4All/leap-ios/releases/download/v0.3.0-2/LeapSDK.xcframework.zip",
+      checksum: "439abe155980d7b1bfa3b992601888c5acb7ee6a6f66b3d815d05d6b5b12bd5f"
     ),
     .target(
-      name: "LeapSDKConstrainedGeneration",
+      name: "LeapSDKMacros",
       dependencies: [
-        "LeapSDKConstrainedGenerationPlugin",
-        "LeapSDKTypes"
+        "LeapSDK",
+        "LeapSDKConstrainedGenerationPlugin"
       ],
-      path: "Sources/LeapSDKConstrainedGeneration"
+      path: "Sources/LeapSDKMacros"
     ),
     .macro(
       name: "LeapSDKConstrainedGenerationPlugin",
@@ -53,7 +40,6 @@ let package = Package(
         .product(name: "SwiftSyntax", package: "swift-syntax"),
         .product(name: "SwiftSyntaxMacros", package: "swift-syntax"),
         .product(name: "SwiftCompilerPlugin", package: "swift-syntax"),
-        "LeapSDKTypes"
       ],
       path: "Sources/LeapSDKConstrainedGenerationPlugin"
     )

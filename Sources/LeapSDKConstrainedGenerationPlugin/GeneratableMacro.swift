@@ -1,4 +1,3 @@
-import LeapSDKTypes
 import SwiftCompilerPlugin
 import SwiftSyntax
 import SwiftSyntaxBuilder
@@ -53,7 +52,9 @@ public struct GeneratableMacro: ExtensionMacro {
     )
 
     // Generate extension conforming to GeneratableType
-    let extensionDecl = try ExtensionDeclSyntax("extension \(type.trimmed): GeneratableType") {
+    let extensionDecl = try ExtensionDeclSyntax(
+      "extension \(type.trimmed): LeapSDK.GeneratableType"
+    ) {
       DeclSyntax("static var typeDescription: String { \(literal: description) }")
       DeclSyntax("static func jsonSchema() -> String { \(literal: schema) }")
     }
