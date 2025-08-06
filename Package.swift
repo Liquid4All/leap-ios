@@ -31,13 +31,13 @@ let package = Package(
   targets: [
     .binaryTarget(
       name: "LeapSDK",
-      url: "https://github.com/Liquid4All/leap-ios/releases/download/v0.3.0/LeapSDK.xcframework.zip",
-      checksum: "187ffa9683a68762de49d6ea3e918596183a4ccc9191aa5f337d0399563baecc"
+      url: "https://github.com/Liquid4All/leap-ios/releases/download/v0.3.0-1/LeapSDK.xcframework.zip",
+      checksum: "34a9d1e962889d9c5dd4caea0b7ef6ff07c560b329233ee418d728710abcdad6"
     ),
     .binaryTarget(
       name: "LeapSDKTypes",
-      url: "https://github.com/Liquid4All/leap-ios/releases/download/v0.3.0/LeapSDKTypes.xcframework.zip",
-      checksum: "24a22ef2a04385f176519e7d19c5e85f037f918b3ae44ca03734dc7479d00167"
+      url: "https://github.com/Liquid4All/leap-ios/releases/download/v0.3.0-1/LeapSDKTypes.xcframework.zip",
+      checksum: "c5209b6e4536e96f163ec025febc373a4a32a132fd1bf5089cc5aefc25d18b50"
     ),
     .target(
       name: "LeapSDKConstrainedGeneration",
