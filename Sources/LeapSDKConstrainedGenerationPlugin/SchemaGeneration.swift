@@ -2,6 +2,104 @@ import Foundation
 import SwiftSyntax
 import SwiftSyntaxMacros
 
+// Replace the whole file contents with the *lazy* generator
+func generateJSONSchemaLazy(
+  for declaration: some DeclGroupSyntax,
+  typeName: String,
+  description: String
+) throws -> String {
+
+  var propertySnippets: [String] = []
+  var required: [String] = []
+
+  for member in declaration.memberBlock.members {
+    guard
+      let varDecl = member.decl.as(VariableDeclSyntax.self),
+      let binding = varDecl.bindings.first,
+      binding.accessorBlock == nil,  // stored only
+      !varDecl.modifiers.contains(where: { $0.name.text == "static" }),
+      let ident = binding.pattern.as(IdentifierPatternSyntax.self)?.identifier,
+      let type = binding.typeAnnotation?.type
+    else { continue }
+
+    let name = ident.text
+    let (kind, isOpt) = mapSwiftType(type)
+
+    // -------- format one property snippet ------------
+    let snippet: String
+
+    switch kind {
+
+    case .primitive(let json):
+      snippet = """
+        "\(name)": { "type": "\(json)"\(guide(varDecl)) }
+        """
+
+    case .array(let elem):
+      switch elem {
+      case .primitive(let json):
+        snippet = """
+          "\(name)": {
+            "type": "array",
+            "items": { "type": "\(json)" }
+            \(guide(varDecl, leadingComma: true))
+          }
+          """
+
+      case .custom(let elemName):
+        snippet = """
+          "\(name)": {
+            "type": "array",
+            "items": \\(\(elemName).jsonSchema())
+            \(guide(varDecl, leadingComma: true))
+          }
+          """
+
+      case .array:  // nested-array edge-cases
+        snippet = """
+          "\(name)": { "type": "array" }
+          """
+      }
+
+    case .custom(let other):
+      snippet = """
+        "\(name)": \\(\(other).jsonSchema())\(guide(varDecl, leadingComma: true))
+        """
+    }
+
+    propertySnippets.append(snippet)
+    if !isOpt { required.append("\"\(name)\"") }
+  }
+
+  // join everything
+  let propertiesBlock = propertySnippets.joined(separator: ",\n")
+  let requiredBlock = required.joined(separator: ", ")
+
+  return #"""
+    """
+    {
+      "type": "object",
+      "title": "\#(typeName)",
+      "description": "\#(description)",
+      "properties": {
+        \#(propertiesBlock)
+      },
+      "required": [\#(requiredBlock)]
+    }
+    """
+    """#
+}
+
+// helper for optional @Guide text
+private func guide(
+  _ decl: VariableDeclSyntax,
+  leadingComma: Bool = false
+) -> String {
+  guard let text = extractGuideDescription(from: decl) else { return "" }
+  return "\(leadingComma ? ", " : ", ")\"description\": \"\(text)\""
+}
+
+// Keep the old function for backward compatibility
 func generateJSONSchema(
   for declaration: some DeclGroupSyntax,
   typeName: String,
@@ -87,6 +185,27 @@ func extractArrayElementType(from type: TypeSyntax) -> TypeSyntax? {
   if typeDescription.hasPrefix("Array<") && typeDescription.hasSuffix(">") {
     let innerType = String(typeDescription.dropFirst(6).dropLast())
     return TypeSyntax(stringLiteral: innerType)
+  }
+
+  return nil
+}
+
+// Helper to extract Guide description from variable declaration
+func extractGuideDescription(from varDecl: VariableDeclSyntax) -> String? {
+  for attribute in varDecl.attributes {
+    guard let attrSyntax = attribute.as(AttributeSyntax.self),
+      attrSyntax.attributeName.as(IdentifierTypeSyntax.self)?.name.text == "Guide"
+    else {
+      continue
+    }
+
+    if let argument = attrSyntax.arguments?.as(LabeledExprListSyntax.self),
+      let expr = argument.first?.expression,
+      let stringLiteral = expr.as(StringLiteralExprSyntax.self),
+      let segment = stringLiteral.segments.first?.as(StringSegmentSyntax.self)
+    {
+      return segment.content.text
+    }
   }
 
   return nil

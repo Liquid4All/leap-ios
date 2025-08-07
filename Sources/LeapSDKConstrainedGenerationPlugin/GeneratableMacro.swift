@@ -44,11 +44,10 @@ public struct GeneratableMacro: ExtensionMacro {
     let typeName = namedDecl.name.text
 
     // Generate JSON schema by analyzing the type's members
-    let schema = try generateJSONSchema(
+    let schema = try generateJSONSchemaLazy(
       for: declaration,
       typeName: typeName,
-      description: description,
-      in: context
+      description: description
     )
 
     // Generate extension conforming to GeneratableType
@@ -56,7 +55,12 @@ public struct GeneratableMacro: ExtensionMacro {
       "extension \(type.trimmed): LeapSDK.GeneratableType"
     ) {
       DeclSyntax("static var typeDescription: String { \(literal: description) }")
-      DeclSyntax("static func jsonSchema() -> String { \(literal: schema) }")
+      DeclSyntax(
+        """
+        static func jsonSchema() -> String {
+          \(raw: schema)
+        }
+        """)
     }
 
     return [extensionDecl]
@@ -74,25 +78,4 @@ func extractDescription(from node: AttributeSyntax) throws -> String {
   }
 
   return segment.content.text
-}
-
-// Helper to extract Guide description from variable declaration
-func extractGuideDescription(from varDecl: VariableDeclSyntax) -> String? {
-  for attribute in varDecl.attributes {
-    guard let attrSyntax = attribute.as(AttributeSyntax.self),
-      attrSyntax.attributeName.as(IdentifierTypeSyntax.self)?.name.text == "Guide"
-    else {
-      continue
-    }
-
-    if let argument = attrSyntax.arguments?.as(LabeledExprListSyntax.self),
-      let expr = argument.first?.expression,
-      let stringLiteral = expr.as(StringLiteralExprSyntax.self),
-      let segment = stringLiteral.segments.first?.as(StringSegmentSyntax.self)
-    {
-      return segment.content.text
-    }
-  }
-
-  return nil
 }
