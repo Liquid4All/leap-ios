@@ -1,8 +1,8 @@
 // swift-tools-version: 5.9
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
-import PackageDescription
 import CompilerPluginSupport
+import PackageDescription
 
 let package = Package(
   name: "LeapSDK",
@@ -16,6 +16,15 @@ let package = Package(
       name: "LeapSDK",
       targets: ["LeapSDK", "LeapSDKMacros"]
     ),
+    // Binary-only product for use in Tuist projects
+    .library(
+      name: "LeapSDKBinary",
+      targets: ["LeapSDK"]
+    ),
+    .library(
+      name: "LeapModelDownloader",
+      targets: ["LeapModelDownloader"]
+    ),
   ],
   dependencies: [
     .package(url: "https://github.com/swiftlang/swift-syntax.git", from: "600.0.0")
@@ -23,14 +32,17 @@ let package = Package(
   targets: [
     .binaryTarget(
       name: "LeapSDK",
-      url: "https://github.com/Liquid4All/leap-ios/releases/download/v0.3.0-2/LeapSDK.xcframework.zip",
-      checksum: "439abe155980d7b1bfa3b992601888c5acb7ee6a6f66b3d815d05d6b5b12bd5f"
+      path: "../outputs/LeapSDK.xcframework"  // LOCAL PATH
+    ),
+    .binaryTarget(
+      name: "LeapModelDownloader",
+      path: "../outputs/LeapModelDownloader.xcframework"  // LOCAL PATH
     ),
     .target(
       name: "LeapSDKMacros",
       dependencies: [
         "LeapSDK",
-        "LeapSDKConstrainedGenerationPlugin"
+        "LeapSDKConstrainedGenerationPlugin",
       ],
       path: "Sources/LeapSDKMacros"
     ),
@@ -42,6 +54,6 @@ let package = Package(
         .product(name: "SwiftCompilerPlugin", package: "swift-syntax"),
       ],
       path: "Sources/LeapSDKConstrainedGenerationPlugin"
-    )
+    ),
   ]
 )
