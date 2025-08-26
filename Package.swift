@@ -27,11 +27,11 @@ let package = Package(
   targets: [
     .binaryTarget(
       name: "LeapSDK",
-      url: "https://github.com/Liquid4All/leap-ios/releases/download/v0.4.0/LeapSDK.xcframework.zip", checksum: "5f1e86a0281836e481e05a8c724a7c400c759ac2fea91166858f79e098a5e5a4"
+      url: "https://github.com/Liquid4All/leap-ios/releases/download/v0.5.0/LeapSDK.xcframework.zip", checksum: "076dfee8ec879e1a11ed91177061c247c523ced1e54a1e667003a53710fed347"
     ),
     .binaryTarget(
       name: "LeapModelDownloader",
-      url: "https://github.com/Liquid4All/leap-ios/releases/download/v0.4.0/LeapModelDownloader.xcframework.zip", checksum: "5dc3af293c280f2863ee42c49b00daec42552f0558e18c8b56dffaef59278ae4"
+      url: "https://github.com/Liquid4All/leap-ios/releases/download/v0.5.0/LeapModelDownloader.xcframework.zip", checksum: "9ab928df2431b241ac7d50aaa240ed87623bc741fe51abec3e6fcfe318b9c25e"
     ),
     .target(
       name: "LeapSDKMacros",
