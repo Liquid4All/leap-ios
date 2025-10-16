@@ -27,23 +27,23 @@ let package = Package(
   targets: [
     .binaryTarget(
       name: "LeapSDK",
-      url: "https://github.com/Liquid4All/leap-ios/releases/download/v0.6.0/LeapSDK.xcframework.zip", checksum: "c16527928447a402d378e32c25aa42571a08f32095238a69e61c83ce66aa8cf1"
+      url: "https://github.com/Liquid4All/leap-ios/releases/download/v0.7.0/LeapSDK.xcframework.zip", checksum: "0cdb5350c726e460613ebf86fe8ebf9bb742491ec45a4ba00f6b980b5e970495"
     ),
     .binaryTarget(
       name: "InferenceEngine",
-      url: "https://github.com/Liquid4All/leap-ios/releases/download/v0.6.0/InferenceEngine.xcframework.zip", checksum: "933846954e0555ed5fd0442220cb533027f47ea955feae509b80d181165f87ab"
+      url: "https://github.com/Liquid4All/leap-ios/releases/download/v0.7.0/inference_engine.xcframework.zip", checksum: "39c901daed930ce1d359da2c26c1e9e2fd6984440a730d0b6676077a0f23cd0b"
     ),
     .binaryTarget(
       name: "InferenceEngineExecutorchBackend",
-      url: "https://github.com/Liquid4All/leap-ios/releases/download/v0.6.0/InferenceEngineExecutorchBackend.xcframework.zip", checksum: "f3490cc78ff1855ff3dfb15ccf45ea019c89b1451a5318f55af97f26494f3b8a"
+      url: "https://github.com/Liquid4All/leap-ios/releases/download/v0.7.0/inference_engine_executorch_backend.xcframework.zip", checksum: "fc2e8715348223129a98d5186a243da8747cd93c4b249b298d6b73e96d08ed9f"
     ),
     .binaryTarget(
       name: "InferenceEngineLlamaCppBackend",
-      url: "https://github.com/Liquid4All/leap-ios/releases/download/v0.6.0/InferenceEngineLlamaCppBackend.xcframework.zip", checksum: "06f0b296633e9616b9cc0dc7bec2399290ede09d5965727c37f72b170f5c3463"
+      url: "https://github.com/Liquid4All/leap-ios/releases/download/v0.7.0/inference_engine_llamacpp_backend.xcframework.zip", checksum: "1800b40ec5d32dbea146c043065a50d7a95c301d9caa64bb4076a195611cdd77"
     ),
     .binaryTarget(
       name: "LeapModelDownloader",
-      url: "https://github.com/Liquid4All/leap-ios/releases/download/v0.6.0/LeapModelDownloader.xcframework.zip", checksum: "8c8f1de73cb998d97794bd9463f8292816716c96309bc2bb99015990fae21838"
+      url: "https://github.com/Liquid4All/leap-ios/releases/download/v0.7.0/LeapModelDownloader.xcframework.zip", checksum: "10a6281465aa53ac7a6f8fd5d4d1fc80dbf9868c0a30142dd1294a229ebe630e"
     ),
     .target(
       name: "LeapSDKSupport",
