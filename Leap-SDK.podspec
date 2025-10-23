@@ -1,6 +1,6 @@
 Pod::Spec.new do |spec|
   spec.name                     = 'Leap-SDK'
-  spec.version = '0.7.2'
+  spec.version = '0.7.3'
   spec.summary                  = 'LeapSDK for iOS - On-device AI inference with Liquid models'
   spec.description              = <<-DESC
                                   LeapSDK is a powerful iOS SDK that enables running AI models locally on device using the Liquid Inference Engine. 
@@ -9,7 +9,7 @@ Pod::Spec.new do |spec|
   spec.homepage                 = 'https://github.com/Liquid4All/leap-ios'
   spec.license                  = { :type => 'Proprietary', :text => 'Copyright 2025 Liquid AI. All rights reserved.' }
   spec.author                   = { 'Liquid AI' => 'support@liquid.ai' }
-  spec.source                   = { :http => 'https://github.com/Liquid4All/leap-ios/releases/download/v0.7.2/LeapSDK.xcframework.zip' }
+  spec.source                   = { :http => 'https://github.com/Liquid4All/leap-ios/releases/download/v0.7.3/LeapSDK.xcframework.zip' }
   
   spec.ios.deployment_target    = '15.0'
   spec.osx.deployment_target    = '12.0'
