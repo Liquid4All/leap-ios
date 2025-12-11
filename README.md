@@ -17,7 +17,7 @@ LeapSDK is a powerful iOS SDK that enables running AI models locally on device u
 
 ## Requirements
 
-- iOS 15.0+ / macOS 12.0+
+- iOS 18.0+ / macOS 14.0+
 
 ## Installation
 
@@ -34,7 +34,7 @@ Or add it to your `Package.swift`:
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/Liquid4All/leap-ios.git", from: "0.3.0")
+    .package(url: "https://github.com/Liquid4All/leap-ios.git", from: "0.7.7")
 ]
 ```
 
@@ -43,7 +43,7 @@ dependencies: [
 Add LeapSDK to your `Podfile`:
 
 ```ruby
-pod 'Leap-SDK', '~> 0.3.0'
+pod 'Leap-SDK', '~> 0.7.7'
 ```
 
 Then run:
@@ -65,7 +65,7 @@ import LeapSDK
 
 // Load a model
 let modelURL = Bundle.main.url(forResource: "model", withExtension: "bundle")!
-let runner = try await Leap.load(url: modelURL)
+let runner = try await Leap.load(options: .init(bundlePath: modelURL.path()))
 
 // Create a conversation
 let conversation = Conversation(modelRunner: runner, history: [])
